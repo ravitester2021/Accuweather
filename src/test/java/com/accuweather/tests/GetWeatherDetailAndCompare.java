@@ -26,7 +26,7 @@ public class GetWeatherDetailAndCompare extends AccuUIBase {
 		uiWeatherPage = new AccuUiWeatherPage();
 	}
 
-	@Test()
+	@Test
 	public void getWeather() {
 		uiHomePage.searchByLocation();
 		weatherFromUI = uiWeatherPage.getCurrentWeatherInDetail();
