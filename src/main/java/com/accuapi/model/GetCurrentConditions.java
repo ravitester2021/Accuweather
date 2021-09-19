@@ -4,11 +4,10 @@ import java.util.HashMap;
 
 import com.accuapi.constants.AccuApiEndpoints;
 import com.accuapi.helpers.GeneralHelper;
-
+import com.accuui.base.AccuUIBase;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 
-public class GetCurrentConditions {
+public class GetCurrentConditions extends AccuUIBase{
 	/**
 	 * Get the Current Weather of the given City
 	 */
@@ -19,29 +18,32 @@ public class GetCurrentConditions {
 	HashMap<String, String> weatherFromApi = new HashMap<String, String>();
 	String currentConditionsEndpoint;
 
-	public HashMap<String, String> getWeatherOfCity() {
+	public HashMap<String, String> getWeatherOfCity(String cityKey) {
 		helper.setCityDetails();
 		helper.setDetails("true");
-		currentConditionsEndpoint = helper.getEndPoint("CURRENT_CONDITIONS");
+		currentConditionsEndpoint = helper.getEndPoint("CURRENT_CONDITIONS",cityKey);
+		reportLog("currentConditionsEndpoint ==="+currentConditionsEndpoint);
 		
 		String weatherText = (String) getValue("[0].WeatherText");
-		System.out.println("WeatherText = " + weatherText);
+		reportLog("WeatherText = " + weatherText);
+		weatherFromApi.put("weather", weatherText);
 	
 		Float temperatureValue = (Float)getValue("[0].Temperature.Metric.Value");
-		System.out.println("temperatureValue = " + temperatureValue);
+		reportLog("temperatureValue = " + temperatureValue);
+		weatherFromApi.put("RealFeel", Float.toString(temperatureValue));
 		
 		int relativeHumidityValue = (Integer) getValue("[0].RelativeHumidity");
-		System.out.println("relativeHumidityValue = " + relativeHumidityValue);
+		reportLog("relativeHumidityValue = " + relativeHumidityValue);
+		weatherFromApi.put("Humidity", Integer.toString(relativeHumidityValue));
 		
 		int cloudCoverValue = (Integer) getValue("[0].CloudCover");
-		System.out.println("cloudCoverValue = " + cloudCoverValue);
+		reportLog("cloudCoverValue = " + cloudCoverValue);
+		weatherFromApi.put("Cloud Cover", Integer.toString(cloudCoverValue));
 		
 		return weatherFromApi;
 	}
 	
 	public Object getValue(String val){
-		Response respone = RestAssured.given().get(currentConditionsEndpoint).then().extract().response().body().path(val);
-		System.out.println("Current Conditions : "+respone.asPrettyString());
-		return respone.toString();
+		return RestAssured.given().get(currentConditionsEndpoint).then().extract().response().body().path(val);
 	}
 }

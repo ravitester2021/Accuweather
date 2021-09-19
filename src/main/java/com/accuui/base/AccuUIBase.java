@@ -5,24 +5,46 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-
+import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import com.accuui.utils.AccuUITestUtil;
 import com.accuui.utils.AccuWebEventListener;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
 
+/**
+ * 
+ * @author ravg1
+ * Base class for UI and API.
+ * Helps to Load property files
+ * Helps to get Browser, Driver initializing and Reporting.
+ */
 public class AccuUIBase {
 	public static WebDriver driver;
 	public static Properties prop;
 	public static EventFiringWebDriver e_driver;
 	public static AccuWebEventListener eventListener;
+	public static ExtentTest test;
+	public static ExtentReports extent;
 
 	/**
 	 * Constructor of Base class to initilaize the property file
 	 */
+	
+	@BeforeSuite
+	public void before() {
+	    extent = new ExtentReports("test-output\\ExtentReportWithLogs.html", true);
+	    test = extent.startTest(this.getClass().getSimpleName()).assignCategory("Happy Path");
+	}
+
+	
 	public AccuUIBase() {
 		try {
 			prop = new Properties();
@@ -62,5 +84,18 @@ public class AccuUIBase {
 		driver.manage().timeouts().pageLoadTimeout(AccuUITestUtil.PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
 		driver.manage().timeouts().implicitlyWait(AccuUITestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
 		driver.get(prop.getProperty("base_Url"));
+	}
+	
+
+	@AfterSuite
+	public void tearDownSuite() {
+	    extent.flush();
+	    extent.close();
+	}
+
+	//Method for adding logs passed from test cases
+	 public void reportLog(String message) {    
+	    test.log(LogStatus.INFO, message);//For extentTest HTML report
+	    Reporter.log(message);
 	}
 }

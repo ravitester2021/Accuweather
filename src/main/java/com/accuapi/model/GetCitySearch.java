@@ -1,14 +1,10 @@
 package com.accuapi.model;
 
-import com.accuapi.constants.AccuApiEndpoints;
 import com.accuapi.helpers.GeneralHelper;
-
+import com.accuui.base.AccuUIBase;
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
-import io.restassured.response.ValidatableResponse;
 
-public class GetCitySearch {
+public class GetCitySearch extends AccuUIBase{
 	/**
 	 * Get the given City Key (Location Key)
 	 */
@@ -16,10 +12,9 @@ public class GetCitySearch {
 	String citySearchEndpoint, locationKey;
 
 	public String getCityKey() {
-		helper.setCityDetails();
-		citySearchEndpoint = helper.getEndPoint("CITY_SEARCH");
+		citySearchEndpoint = helper.getEndPoint("CITY_SEARCH","");
 		locationKey = (String) getValue("[0].Key");
-		System.out.println("locationKey = " + locationKey);
+		reportLog("Location Key collected is : "+locationKey);
 		return locationKey;
 	}
 

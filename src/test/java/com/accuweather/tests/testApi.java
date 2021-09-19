@@ -7,9 +7,9 @@ public class testApi {
 
 	public static void main(String[] args) {
 		GetCitySearch getCitySearch = new GetCitySearch();
-		getCitySearch.getCityKey();
+		String cityKey =  getCitySearch.getCityKey();
 		GetCurrentConditions con = new GetCurrentConditions();
-		con.getWeatherOfCity();
+		System.out.println(con.getWeatherOfCity(cityKey));
 
 	}
 
