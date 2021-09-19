@@ -38,7 +38,7 @@ public class GetCurrentConditions extends AccuUIBase{
 		
 		int cloudCoverValue = (Integer) getValue("[0].CloudCover");
 		reportLog("cloudCoverValue = " + cloudCoverValue);
-		weatherFromApi.put("Cloud Cover", Integer.toString(cloudCoverValue));
+		weatherFromApi.put("CloudCover", Integer.toString(cloudCoverValue));
 		
 		return weatherFromApi;
 	}

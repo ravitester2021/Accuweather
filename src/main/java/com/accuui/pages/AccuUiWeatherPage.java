@@ -56,17 +56,13 @@ public class AccuUiWeatherPage extends AccuUIBase {
 	
 	public void addWindDetails() {
 		moreDetailsLink.click();
-		weatherUIDetails.put("weatherInDegree", weatherInDegree.getText());
-		reportLog("Weather In Degree as "+weatherInDegree.getText());
-		weatherUIDetails.put("Wind Speed", windSpeed.getText());
-		reportLog("Wind Speed Info collected as "+windSpeed.getText());
+		weatherUIDetails.put("CloudCover", cloudCoverText.getText().replaceAll("[^\\d]", " "));
+		reportLog("Cloud Cover collected as "+cloudCoverText.getText());
+		weatherUIDetails.put("Humidity", humidityText.getText().replaceAll("[^\\d]", " "));
+		reportLog("Humidity Info collected as "+humidityText.getText());
 		weatherUIDetails.put("weather", weatherText.getText());
 		reportLog("Weather Info collected as "+weatherText.getText());
-		weatherUIDetails.put("RealFeel", realFeelText.getText());
+		weatherUIDetails.put("RealFeel", realFeelText.getText().replaceAll("[^\\d]", " "));
 		reportLog("RealFeel Info collected as "+realFeelText.getText());
-		weatherUIDetails.put("Humidity", humidityText.getText());
-		reportLog("Humidity Info collected as "+humidityText.getText());
-		weatherUIDetails.put("Cloud Cover", cloudCoverText.getText());
-		reportLog("Cloud Cover collected as "+cloudCoverText.getText());
 	}
 }
