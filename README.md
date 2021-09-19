@@ -1,0 +1,2 @@
+# Accuweather
+basic
