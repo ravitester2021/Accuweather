@@ -1,54 +1,45 @@
 package com.accuapi.helpers;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import com.accuui.base.AccuUIBase;
 
-import com.accuapi.model.GetCurrentConditions;
-import com.accuui.pages.AccuUiWeatherPage;
+public class ComparatorLogic extends AccuUIBase {
 
-public class ComparatorLogic implements Comparator<ComparatorLogic> {
+	public boolean CompareVariance(String parameter, String uiWeatherVal, String apiWeatherVal, String variance)
+			throws CustomException {
 
-	private String cloudCover, humidity, weather, RealFeel;
-	static HashMap<String, String> s1 = new HashMap<String, String>();
-	static HashMap<String, String> s2 = new HashMap<String, String>();
+		boolean result = false;
 
-	public void addData() {
-		s1.put("1", "One");
-		s1.put("2", "Two");
-
-		s2.put("1", "One");
-		s2.put("2", "Two");
+		if (parameter.equalsIgnoreCase("Humidity")) {
+			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			reportLog("Humidity Comparison result is : " + result);
+		} else if (parameter.equalsIgnoreCase("CloudCover")) {
+			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			reportLog("CloudCover Comparison result is : " + result);
+		} else if (parameter.equalsIgnoreCase("RealFeel")) {
+			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			reportLog("RealFeel Comparison result is : " + result);
+		} else {
+			reportLog("Sorry! No parameters to compare!");
+			throw new CustomException("Exception : Please provide proper value for comparision....");
+		}
+		return result;
 	}
 
-	public int compare(HashMap<String,String> s12, HashMap<String,String> s22) {
-		return 0;
-//		if (m1.getWeatherOfCity("") < m2.getCurrentWeatherInDetail()) return -1;
-//        if (m1.getRating() > m2.getRating()) return 1;
-//        else 
-//        	return 0;
+	public static int covertToInteger(String s) {
+		return Integer.parseInt(s);
 	}
 
-	public int compare(ComparatorLogic o1, ComparatorLogic o2) {
-		// TODO Auto-generated method stub
-		System.out.println(o1.s1.equals(o2.s2));
-//		if(o1.s1.equals(o2.s2)) {
-			
-//		}
-		return 0;
+	private boolean compareData(int a, int b, String varianceVal) throws CustomException {
+		boolean dataResult;
+		int varianceValInt = ComparatorLogic.covertToInteger(varianceVal);
+		if (a == b) {
+			dataResult = true;
+		} else if ((a + varianceValInt == b) || (b + varianceValInt == a)) {
+			dataResult = true;
+		} else {
+			dataResult = false;
+			throw new CustomException("Exception : Web Results and API results are not Matching....");
+		}
+		return dataResult;
 	}
-	
-	public static void main(String[] args) {
-		ComparatorLogic obj = new ComparatorLogic();
-		obj.compare(s1, s2);
-//		System.out.println(obj.compare(s1, s2));
-//		System.out.println(s1.equals(s2));
-		System.out.println(s1.keySet().equals(s2.keySet()));
-		System.out.println(s1.values().equals(s2.values()));
-//		s1.
-//		System.out.println((asiaCapital1, asiaCapital2));
-		//Compare values
-	}
-
 }
