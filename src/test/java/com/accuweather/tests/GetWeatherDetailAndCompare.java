@@ -11,18 +11,15 @@ import com.accuapi.model.GetCurrentConditions;
 import com.accuui.base.AccuUIBase;
 import com.accuui.pages.AccuUiHomePage;
 import com.accuui.pages.AccuUiWeatherPage;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
 
 public class GetWeatherDetailAndCompare extends AccuUIBase {
 	AccuUiHomePage uiHomePage;
 	AccuUiWeatherPage uiWeatherPage;
-	HashMap<String, String> weatherFromUI = new HashMap<String, String>();
-	public static ExtentTest logger;
-	HashMap<String, String> weatherFromAPI = new HashMap<String, String>();
-	String cityKey;
 	GetCurrentConditions getConditions;
 	GetCitySearch getCitySearch;
+	HashMap<String, String> weatherFromUI = new HashMap<String, String>();
+	HashMap<String, String> weatherFromAPI = new HashMap<String, String>();
+	String cityKey;
 
 	public GetWeatherDetailAndCompare() {
 		super();
@@ -42,20 +39,16 @@ public class GetWeatherDetailAndCompare extends AccuUIBase {
 	public void getWeatherfromUI() {
 		uiHomePage.searchByLocation();
 		weatherFromUI = uiWeatherPage.getCurrentWeatherInDetail();
-		reportLog("Weather From UI :"+weatherFromUI);
-	}
-	
-	@Test
-	public void getWeatherFromApi() {
-		cityKey =  getCitySearch.getCityKey();
+		reportLog("Weather From UI :" + weatherFromUI);
+		cityKey = getCitySearch.getCityKey();
 		weatherFromAPI = getConditions.getWeatherOfCity(cityKey);
-		reportLog("weatherFromAPI :"+weatherFromAPI);
+		reportLog("weatherFromAPI :" + weatherFromAPI);
 	}
 
 	@AfterMethod
 	public void tearDown() {
 		driver.quit();
-		driver.close();
+		reportLog("======	Test Case Execution Completed	======");
 	}
-	
+
 }
