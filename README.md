@@ -12,9 +12,11 @@
 git clone https://github.com/ravitester2021/accuweather.git
 ```
 
-## Prerequisite
-1. Download chrome driver and Firefox driver and copy to "C:\\Users\\your username \\Downloads\" location
-2. This code works with windows.
+## Usage
+1. Chrome driver and Firefox driver supported for windows OS.
+2. Safari driver supported for Mac OS.
+3. This code works with windows and mac OS.
+4. Based on need, you can add your favourite browser using WebDriverManager in base class.
 
 
 ## Run the code
@@ -33,7 +35,8 @@ To configure the framework, please refer - config.properties
 
 ## Update test data
 1. Goto config.properties and change "ui_location" to desired city.
-2. Run GetWeatherDetailAndCompare.java OR testng.xml as suite
+2. Run GetWeatherDetailAndCompare.java OR testng.xml as suite.
+
 
 ## Reporting and Logs
 1. Extent report is used for reporting.
