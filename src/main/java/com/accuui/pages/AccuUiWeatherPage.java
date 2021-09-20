@@ -38,6 +38,8 @@ public class AccuUiWeatherPage extends AccuUIBase {
 	@FindBy(xpath = "//div[@class='current-weather-details']/div[2]/div[3]/div[2]")
 	WebElement cloudCoverText;
 	
+	@FindBy(xpath = "(//div[contains(@class,\"temp\")])[3]")
+	WebElement temperatureText;
 	
 
 	public AccuUiWeatherPage() {
@@ -56,13 +58,15 @@ public class AccuUiWeatherPage extends AccuUIBase {
 	
 	public void addWindDetails() {
 		moreDetailsLink.click();
-		weatherUIDetails.put("CloudCover", cloudCoverText.getText().replaceAll("[^\\d]", " "));
+		weatherUIDetails.put("CloudCover", cloudCoverText.getText().replaceAll("[^\\d.]", " "));
 		reportLog("Cloud Cover collected as "+cloudCoverText.getText());
-		weatherUIDetails.put("Humidity", humidityText.getText().replaceAll("[^\\d]", " "));
+		weatherUIDetails.put("Humidity", humidityText.getText().replaceAll("[^\\d.]", " "));
 		reportLog("Humidity Info collected as "+humidityText.getText());
 		weatherUIDetails.put("weather", weatherText.getText());
 		reportLog("Weather Info collected as "+weatherText.getText());
-		weatherUIDetails.put("RealFeel", realFeelText.getText().replaceAll("[^\\d]", " "));
+		weatherUIDetails.put("RealFeel", realFeelText.getText().replaceAll("[^\\d.]", " "));
 		reportLog("RealFeel Info collected as "+realFeelText.getText());
+		weatherUIDetails.put("Temperature", temperatureText.getText().replaceAll("[^\\d.]", " "));
+		reportLog("Temperature Info collected as "+temperatureText.getText());
 	}
 }

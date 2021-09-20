@@ -8,33 +8,41 @@ public class ComparatorLogic extends AccuUIBase {
 			throws CustomException {
 
 		boolean result = false;
-
 		if (parameter.equalsIgnoreCase("Humidity")) {
-			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			result = compareDataDouble(convertToDouble(uiWeatherVal.trim()), convertToDouble(apiWeatherVal.trim()),
+					variance);
 			reportLog("Humidity Comparison result is : " + result);
 		} else if (parameter.equalsIgnoreCase("CloudCover")) {
-			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			result = compareDataDouble(convertToDouble(uiWeatherVal.trim()), convertToDouble(apiWeatherVal.trim()),
+					variance);
 			reportLog("CloudCover Comparison result is : " + result);
 		} else if (parameter.equalsIgnoreCase("RealFeel")) {
-			result = compareData(covertToInteger(uiWeatherVal.trim()), covertToInteger(apiWeatherVal.trim()), variance);
+			result = compareDataDouble(convertToDouble(uiWeatherVal.trim()), convertToDouble(apiWeatherVal.trim()),
+					variance);
 			reportLog("RealFeel Comparison result is : " + result);
+		} else if (parameter.equalsIgnoreCase("Temperature")) {
+			result = compareDataDouble(convertToDouble(uiWeatherVal.trim()), convertToDouble(apiWeatherVal.trim()),
+					variance);
+			reportLog("Temperature Comparison result is : " + result);
 		} else {
 			reportLog("Sorry! No parameters to compare!");
 			throw new CustomException("Exception : Please provide proper value for comparision....");
 		}
+
 		return result;
 	}
 
-	public static int covertToInteger(String s) {
-		return Integer.parseInt(s);
+	public static double convertToDouble(String s) {
+		return Double.parseDouble(s);
 	}
 
-	private boolean compareData(int a, int b, String varianceVal) throws CustomException {
+	private boolean compareDataDouble(double a, double b, String varianceVal) throws CustomException {
 		boolean dataResult;
-		int varianceValInt = ComparatorLogic.covertToInteger(varianceVal);
-		if (a == b) {
-			dataResult = true;
-		} else if ((a + varianceValInt == b) || (b + varianceValInt == a)) {
+		reportLog(
+				"Your Value A is = " + a + " AND " + "Your Value B is = " + b + " AND Variance Val is =" + varianceVal);
+		double varianceValDouble = ComparatorLogic.convertToDouble(varianceVal);
+		reportLog("So, A - B is = " + (a - b) + "  AND Variance Val is = " + varianceValDouble);
+		if ((a - b == 0) || ((a - b) < varianceValDouble)) {
 			dataResult = true;
 		} else {
 			dataResult = false;

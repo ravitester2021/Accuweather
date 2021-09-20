@@ -22,7 +22,7 @@ public class GetWeatherDetailAndCompare extends AccuUIBase {
 	GetCitySearch getCitySearch;
 	HashMap<String, String> weatherFromUI = new HashMap<String, String>();
 	HashMap<String, String> weatherFromAPI = new HashMap<String, String>();
-	String cityKey,humidityVariance;
+	String cityKey,humidityVariance,temperatureVariance;
 
 	public GetWeatherDetailAndCompare() {
 		super();
@@ -37,7 +37,7 @@ public class GetWeatherDetailAndCompare extends AccuUIBase {
 		getConditions = new GetCurrentConditions();
 		getCitySearch = new GetCitySearch();
 		compareLogic = new ComparatorLogic();
-		humidityVariance = prop.getProperty("Humidity_variance");
+		temperatureVariance = prop.getProperty("Temperature_variance");
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class GetWeatherDetailAndCompare extends AccuUIBase {
 		cityKey = getCitySearch.getCityKey();
 		weatherFromAPI = getConditions.getWeatherOfCity(cityKey);
 		reportLog("weatherFromAPI :" + weatherFromAPI);
-		compareLogic.CompareVariance("Humidity", weatherFromUI.get("Humidity"), weatherFromAPI.get("Humidity"), humidityVariance);
+		compareLogic.CompareVariance("Temperature", weatherFromUI.get("Temperature"), weatherFromAPI.get("Temperature"), temperatureVariance);
 	}
 
 	@AfterMethod

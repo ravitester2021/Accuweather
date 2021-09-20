@@ -10,8 +10,8 @@ import org.openqa.selenium.TakesScreenshot;
 import com.accuui.base.AccuUIBase;
 
 public class AccuUITestUtil extends AccuUIBase {
-	public static long PAGE_LOAD_TIMEOUT = 20;
-	public static long IMPLICIT_WAIT = 20;
+	public static long PAGE_LOAD_TIMEOUT = 30;
+	public static long IMPLICIT_WAIT = 30;
 
 	public static void takeScreenshotAtEndOfTest() throws IOException {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);

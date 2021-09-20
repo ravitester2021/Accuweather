@@ -20,12 +20,12 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 /**
  * 
- * @author ravg1
- * Base class for UI and API.
- * Helps to Load property files
- * Helps to get Browser, Driver initializing and Reporting.
+ * @author ravg1 Base class for UI and API. Helps to Load property files Helps
+ *         to get Browser, Driver initializing and Reporting.
  */
 public class AccuUIBase {
 	public static WebDriver driver;
@@ -38,15 +38,14 @@ public class AccuUIBase {
 	/**
 	 * Constructor of Base class to initilaize the property file
 	 */
-	
+
 	@BeforeSuite
 	public void before() {
-    extent = new ExtentReports("test-output\\ExtentReportWithLogs.html", true);
-    test = extent.startTest(this.getClass().getSimpleName()).assignCategory("Happy Path");
+		extent = new ExtentReports("test-output\\ExtentReportWithLogs.html", true);
+		test = extent.startTest(this.getClass().getSimpleName());
 
 	}
 
-	
 	public AccuUIBase() {
 		try {
 			prop = new Properties();
@@ -67,17 +66,31 @@ public class AccuUIBase {
 	@SuppressWarnings("deprecation")
 	public static void initialization() {
 		String browserName = prop.getProperty("browser");
+		String operatingSystem = System.getProperty("os.name").toLowerCase();
 
-		if (browserName.equals("chrome")) {
-			System.setProperty("webdriver.chrome.driver", "C:\\Users\\ravg1\\Downloads\\chromedriver.exe");
-			driver = new ChromeDriver();
-		} else if (browserName.equals("FF")) {
-			System.setProperty("webdriver.gecko.driver", "C:\\Users\\ravg1\\Downloads\\geckodriver.exe");
-			driver = new FirefoxDriver();
+		if (operatingSystem.contains("windows")) {
+			reportLog("Your OS is :" + operatingSystem);
+			if (browserName.equals("chrome")) {
+				WebDriverManager.chromedriver().setup();
+				driver = new ChromeDriver();
+				reportLog("Chrome Driver Initialized.");
+			} else if (browserName.equals("FF")) {
+				WebDriverManager.firefoxdriver().setup();
+				driver = new FirefoxDriver();
+				reportLog("Firefox Driver Initialized.");
+			}
+
+		} else if (operatingSystem.contains("mac")) {
+			reportLog("Your OS is :" + operatingSystem);
+			WebDriverManager.safaridriver().setup();
+			reportLog("Safari Driver Initialized.");
+		} else {
+			reportLog("Could not get your OS info.");
 		}
 
 		e_driver = new EventFiringWebDriver(driver);
-		// Now create object of EventListerHandler to register it with EventFiringWebDriver
+		// Now create object of EventListerHandler to register it with
+		// EventFiringWebDriver
 		eventListener = new AccuWebEventListener();
 		driver = e_driver.register(eventListener);
 		driver.manage().window().maximize();
@@ -86,16 +99,15 @@ public class AccuUIBase {
 		driver.manage().timeouts().implicitlyWait(AccuUITestUtil.IMPLICIT_WAIT, TimeUnit.SECONDS);
 		driver.get(prop.getProperty("base_Url"));
 	}
-	
 
 	@AfterSuite
 	public void tearDownSuite() {
-	    extent.flush();
+		extent.flush();
 	}
 
-	//Method for adding logs passed from test cases
-	 public void reportLog(String message) {    
-	    test.log(LogStatus.INFO, message);//For extentTest HTML report
-	    Reporter.log(message);
+	// Method for adding logs passed from test cases
+	public static void reportLog(String message) {
+		test.log(LogStatus.INFO, message);// For extentTest HTML report
+		Reporter.log(message);
 	}
 }

@@ -28,9 +28,9 @@ public class GetCurrentConditions extends AccuUIBase{
 		reportLog("WeatherText = " + weatherText);
 		weatherFromApi.put("weather", weatherText);
 	
-		Float temperatureValue = (Float)getValue("[0].Temperature.Metric.Value");
-		reportLog("temperatureValue = " + temperatureValue);
-		weatherFromApi.put("RealFeel", Float.toString(temperatureValue));
+		Float realFeelValue = (Float)getValue("[0].Temperature.Metric.Value");
+		reportLog("temperatureValue = " + realFeelValue);
+		weatherFromApi.put("RealFeel", Float.toString(realFeelValue));
 		
 		int relativeHumidityValue = (Integer) getValue("[0].RelativeHumidity");
 		reportLog("relativeHumidityValue = " + relativeHumidityValue);
@@ -39,6 +39,10 @@ public class GetCurrentConditions extends AccuUIBase{
 		int cloudCoverValue = (Integer) getValue("[0].CloudCover");
 		reportLog("cloudCoverValue = " + cloudCoverValue);
 		weatherFromApi.put("CloudCover", Integer.toString(cloudCoverValue));
+		
+		Float temperatureValue = (Float) getValue("[0].Temperature.Metric.Value");
+		reportLog("temperatureValue = " + temperatureValue);
+		weatherFromApi.put("Temperature", Float.toString(temperatureValue));
 		
 		return weatherFromApi;
 	}
