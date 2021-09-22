@@ -1,4 +1,4 @@
-package com.accuweather.tests;
+package com.simple.tests;
 
 import com.accuapi.model.GetCitySearch;
 import com.accuapi.model.GetCurrentConditions;
